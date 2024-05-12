@@ -4,34 +4,153 @@
 <head>
   <title>Web Sprint 2 Challenge</title>
   <script id="challenge">
-    // 👉 CHALLENGE 1
-    function profileActivation(profile, reason) {
 
-    }
+    // 👉 CHALLENGE 1 
+    //1. If the input profile is **active**, set it to **inactive** and assign the provided `reason` to the profile. The updated profile should be returned.
+   //2. If the input profile is **inactive**, set it to **active** and remove the `reason` property from the profile. The updated profile should be returned.
+   //3. If a profile passed in is active and no `reason` is provided, return `"confirm status manually"` and do not modify the profile.
+
+
+    function profileActivation(profile, reason) 
+    {
+      if (profile.active === true && reason) 
+      {
+        profile.active = false 
+        profile.reason = reason 
+        return profile 
+      } 
+      if (profile.active === true && !reason) 
+      {
+        return "confirm status manually"
+      }
+      if (profile.active === false)
+      {
+        profile.active = true
+        delete profile.reason
+      }
+      return profile
+     } 
 
     // 👉 CHALLENGE 2
-    function mineSweeper(grid, x, y) {
-
+    function mineSweeper(grid, x, y) 
+    {
+      if ((x > 3 || x < 1) || (y > 3 || y < 1))  
+      return 'invalid coordinates' 
+      result = grid[y-1][x-1]         //why is the y listed first and x second??
+      if (result == "🟥") return "🟥 💀" 
+      else return "🟦 🥳" 
     }
+    //"🟦 🥳"
 
     // 👉 CHALLENGE 3
-    function booleanize(obj) {
+    function booleanize(obj) 
+    {
+      var keys = Object.keys(obj);
 
+      for (let i = 0; i < keys.length; i++)
+      {
+        var val = obj[keys[i]]
+       // Object.keys(obj)[i]
+        if (val == 0) obj[keys[i]] = false
+        if (val == 1) obj[keys[i]] = true
+        if (val == null) delete obj[keys[i]]  
+        if (keys[i].length > 9) return "shorten all prop names to 9 chars or less" 
+      } return obj 
     }
 
     // 👉 CHALLENGE 4
-    function scrub(text, forbidden) {
+    function scrub(text, forbidden) 
+    {
+      if (forbidden.length <= 0) return text;
 
-    }
+      if (text.length <= 0) return text;
+      
+      //if (text.includes('!') || text.includes(',')) return "input has punctuation" 
+
+      let input = text.split(" "); 
+
+      for (let i = 0; i < forbidden.length; i++) 
+      {
+        while (input.includes(forbidden[i]))
+        {
+          let index = input.indexOf(forbidden[i]);
+
+          input[index] = "x".repeat(forbidden[i].length);
+        }
+      } 
+      return input.join(" ") 
+    } 
 
     // 👉 CHALLENGE 5 (bonus, NOT graded)
-    function normalizePhoneNumber(num) {
+    function normalizePhoneNumber(num) 
+    {
+      let input = num.split('')
 
+      if (input.length != 10) return "not a valid input"
+
+      const allowedValues = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+      for (let i = 0; i < 10; i++)
+      {
+        let inputValue = parseInt(input[i])
+
+        if (allowedValues.includes(inputValue))
+        {
+          continue
+        }
+        else 
+        {
+          return "the input has some non-numeric inputs"
+        }
+      }
+      let areaCode = ""
+
+      for (let i = 0; i < 3; i++)
+      {
+        areaCode += input.shift()
+      }
+      let middlePart = ""
+      for (let i = 0; i < 3; i++)
+      {
+        middlePart += input.shift()
+      }
+      let finalFour = ""
+
+      for (let i = 0; i < 4; i++)
+      {
+        finalFour += input.shift()
+      }
+      const template = `(${areaCode} ${middlePart}-${finalFour})`
+      return template
     }
 
     // 👉 CHALLENGE 6 (bonus, NOT graded)
-    function diceRolls() {
+    function diceRolls() 
+    {
+      let number_of_throws = 0
 
+      let sequential_sixes = 0
+
+      while (true)
+      {
+        let value = Math.random() * 6
+
+        let roll = Math.ceil(value)
+
+        number_of_throws += 1
+
+        if (roll != 6)
+        {
+          sequential_sixes = 0
+        }
+        else 
+        {
+          sequential_sixes += 1
+          
+          if (sequential_sixes >= 3) return number_of_throws
+        }
+        if (number_of_throws > 1000) return "more than 1000 rolls" 
+      }
     }
 
     // 🧪 DO NOT make any changes below this line ===================
